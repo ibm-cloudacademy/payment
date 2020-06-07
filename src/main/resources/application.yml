@@ -1,0 +1,37 @@
+server:
+  port: 8082
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: passw0rd
+    driver-class-name: org.postgresql.Driver
+    
+# Kafka
+  kafka:
+    bootstrap-servers: localhost:9092
+    listener.ack-mode: manual_immediate    
+# Kafka Producer
+    producer:
+      acks: 1
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+# Kafka Consumer
+    consumer:
+      group-id: payment-group
+      auto-offset-reset: latest
+      enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer 
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  
+academy:
+  payment-max-count: 1000  
+    
+kafka:
+  payment:
+    topic: payment-order  
+    
+  

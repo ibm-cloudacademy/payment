@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+       Copyright 2015-2019 the original author or authors.
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+          http://www.apache.org/licenses/LICENSE-2.0
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+-->
+<!DOCTYPE mapper
+       PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="payment">
+
+    <insert id="savePayment" parameterType="com.ibm.lab.payment.model.Payment">
+        insert into payment (order_id, amt) 
+        values ( #{orderId}, #{amt})
+        ON CONFLICT (id, order_id) DO
+        update set amt = #{amt},
+                   order_id = #{orderId}
+    </insert>
+    
+    <insert id="saveReservedPayment" parameterType="com.ibm.lab.payment.model.ReservedPayment">
+        insert into reserved_payment (id, status, resources, expires, created) 
+        values (#{id}, #{status}, #{resources}, #{expires}, #{created})
+        ON CONFLICT (id) DO
+        update set status = #{status},
+                   resources = #{resources},
+                   expires = #{expires},
+                   created = #{created}
+    </insert>
+    <select id="genSeqReservedPayment" resultType="Long" >
+    	select nextval('seq_reserved_payment')
+    </select>
+    
+    <select id="getSeqReservedPayment" resultType="Long">
+    	select current('seq_reserved_payment')
+    </select>
+     <select id="findById" parameterType="Long" resultType="com.ibm.lab.payment.model.Payment">
+        select id, order_id as orderId, amt from payment
+        where id = #{id}
+    </select>
+    
+    <select id="findByOrderId" parameterType="String" resultType="com.ibm.lab.payment.model.Payment">
+        select id, order_id as orderId, amt from payment
+        where order_id = #{orderId}
+    </select>
+    
+     <select id="findByReservedPaymentId" parameterType="Long" resultType="com.ibm.lab.payment.model.ReservedPayment">
+        select id, status, resources, created, expires from reserved_payment
+        where id = #{id}
+    </select> 
+    
+     <select id="findAll" parameterType="Long" resultType="com.ibm.lab.payment.model.Payment">
+        select id, order_id as orderId, amt from payment
+        limit #{limit}
+    </select>
+</mapper>  
