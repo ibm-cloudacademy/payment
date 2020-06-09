@@ -11,7 +11,32 @@ Payment Microservice for Cloud Native Post Academy Deep Dive
 ![alt text](img/rest_tcc.png)
 
 ## 필수작업
- 1. postgres db 접속 결제 결과 확인
+ 1. App 관련 작성 규칙
+   username을 기준으로 namespace로 만들고 자신의 앱을 배포하십시요
+```
+   namespace 작성 규칙 : user + NN( 일련번호 2자리)
+   ex)
+    - user01
+    - user02
+        :
+    - user40
+
+   app name 작성 규칙 : user + NN + "-" + post-fix (order|stock|payment  하나 선택)
+   ex)
+    - user01-order
+    - user01-stock
+    - user01-payment
+
+   YAML 파일 규칙 : userNN + appname(order|stock|payment 하나 선택) + ".yaml
+                    userNN + appname-service + ".yaml"
+                    userNN + appname-config + ".yaml"
+   ex)
+    - user01-payment.yaml
+    - user01-payment-service.yaml
+    - user01-payment-config.yaml
+```
+
+ 2. postgres db 접속 결제 결과 확인
     사용자가 상품주문한 주문id로 결제정보를 확인합니다.
     * 결제 테이블 : payment
 
