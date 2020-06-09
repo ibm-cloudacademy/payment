@@ -11,6 +11,15 @@ Payment Microservice for Cloud Native Post Academy Deep Dive
 ![alt text](img/rest_tcc.png)
 
 ## 필수작업
+### 사전 설치 Solution
+ default namespace에 backing service solution이 설치되어 있습니다.
+
+ * postgresSQL : orderdb, stockdb, paymentdb
+ * kafka
+ * redis
+
+![alt text](img/backing_service.png)
+
  1. App 관련 작성 규칙
    username을 기준으로 namespace로 만들고 자신의 앱을 배포하십시요
 ```
